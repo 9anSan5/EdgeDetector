@@ -17,6 +17,7 @@ ZERO_CROSS = ["MarrHildret"]
 
 single_threshold = 80
 double_threshold = [0.1, 0.30]
+zeroCrossing_threshold = 0.98
 
 def load_image(filename):
     image = ImageUtil.load_image( directory+filename )
@@ -40,7 +41,7 @@ def main():
         for mask in MULTI_FASE[detector]:
             edgeDetectors.append(edgeDetectorFactoryMulti.get_detector(mask = [detector, mask], threshold = double_threshold))
     for detector in ZERO_CROSS:
-        edgeDetectors.append(edgeDetectorFactoryZero.get_detector(mask = [detector, ImageUtil.get_laplacianOfGaussian(FilterDIM, FilterSIGMA)], threshold = 0.9))
+        edgeDetectors.append(edgeDetectorFactoryZero.get_detector(mask = [detector, ImageUtil.get_laplacianOfGaussian(FilterDIM, FilterSIGMA)], threshold = zeroCrossing_threshold))
 
     for filename in os.listdir(directory):
         if os.path.isdir(directory+filename): 
@@ -60,13 +61,12 @@ def main():
             edges = detector.getEdges(image)
             t = time.time() - t
 
-            tp, fp, tn, fn = MetricsFunction.evaluate(groundTruth, edges)
-            pfom = MetricsFunction.PrattFigureMerit(groundTruth, edges)[0]
+            tp, fp, tn, fn, mq = MetricsFunction.MapQuality(groundTruth, edges)
+            pfom = MetricsFunction.PrattFigureMerit(groundTruth, edges)
             mae = MetricsFunction.MeanAbsoluteError(groundTruth, edges)
-
             images.append(ImageUtil.write_info(edges, detector.getName()+" (TH: {})".format(detector.getThreshold()), blurring_time + t))
             
-            results.append(ImageUtil.create_result(groundTruth.size, tp, fp, tn, fn, mae, pfom))
+            results.append(ImageUtil.create_result(groundTruth.size, tp, fp, tn, fn, mq, mae, pfom))
             
         #write output image with all information
         ImageUtil.create_all(original, images, groundTruth, results, result_dir+filename+extension)   

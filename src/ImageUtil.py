@@ -137,7 +137,7 @@ class ImageUtil():
         return dst
 
     @staticmethod
-    def create_result(shape, tp, fp, tn, fn, mae, pfom):
+    def create_result(shape, tp, fp, tn, fn, mq, mae, pfom):
         img = Image.new('L', (shape[0], shape[1]), color='white')
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("arial.ttf", 24)
@@ -145,19 +145,22 @@ class ImageUtil():
         fp = "FP: {}".format(fp)
         tn = "TN: {}".format(tn)
         fn = "FN: {}".format(fn)
-        mae = "M.A.E.: {:.4f}".format(mae)
-        pfom = "P.F.O.M.: {:.4f}".format(pfom) 
+        mq = "MQ: {:.4f}".format(mq)
+        mae = "MAE: {:.4f}".format(mae)
+        pfom = "Pratt FOM: {:.4f}".format(pfom) 
         w1, h1 = draw.textsize(tp, font)
         w2, h2 = draw.textsize(fp, font)
         w3, h3 = draw.textsize(tn, font)
         w4, h4 = draw.textsize(fn, font)
+        w5, h5 = draw.textsize(mq, font)
         w6, h6 = draw.textsize(mae, font)
         w7, h7 = draw.textsize(pfom, font)
-        draw.text(((img.width-w1)/2,((img.height-h1)/2)-h1-h2-h3-h4-h6), tp, font = font)
-        draw.text(((img.width-w2)/2,((img.height-h2)/2)+h1-h2-h3-h4-h6), fp, font = font)
-        draw.text(((img.width-w3)/2,((img.height-h3)/2)+h1+h2-h3-h4-h6), tn, font = font)
-        draw.text(((img.width-w4)/2,((img.height-h4)/2)+h1+h2+h3-h4-h6), fn, font = font)
-        draw.text(((img.width-w6)/2,((img.height-h6)/2)+h1+h2+h3+h4-h6), mae, font = font)
-        draw.text(((img.width-w7)/2,((img.height-h7)/2)+h1+h2+h3+h4+h6), pfom, font = font)
+        draw.text(((img.width-w1)/2,((img.height-h1)/2)-h1-h2-h3-h4-h5-h6), tp, font = font)
+        draw.text(((img.width-w2)/2,((img.height-h2)/2)+h1-h2-h3-h4-h5-h6), fp, font = font)
+        draw.text(((img.width-w3)/2,((img.height-h3)/2)+h1+h2-h3-h4-h5-h6), tn, font = font)
+        draw.text(((img.width-w4)/2,((img.height-h4)/2)+h1+h2+h3-h4-h5-h6), fn, font = font)
+        draw.text(((img.width-w5)/2,((img.height-h5)/2)+h1+h2+h3+h4-h5-h6), mq, font = font)
+        draw.text(((img.width-w6)/2,((img.height-h6)/2)+h1+h2+h3+h4+h5-h6), mae, font = font)
+        draw.text(((img.width-w7)/2,((img.height-h7)/2)+h1+h2+h3+h4+h5+h6), pfom, font = font)
         return img
     #########################################################################

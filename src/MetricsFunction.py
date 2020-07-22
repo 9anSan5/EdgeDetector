@@ -13,10 +13,10 @@ class MetricsFunction():
         if not (N,M) == Ed.shape:
             print('Actual and detected edge image sizes must be same')
             return
-        a = 0.11 # edge shift penalty constant;
+        a = 0.111 # edge shift penalty constant;
         
-        fac = len(np.where((Ea-Ed) == -1)) #False Alarm Count
-        msc = len(np.where((Ea-Ed) == 1))  #Miss Count
+        print(len(np.where((Ea-Ed) == -1))) #False Alarm Count
+        print(len(np.where((Ea-Ed) == 1)))  #Miss Count
 
         Na = sum(sum(Ea))
         Nd = sum(sum(Ed))
@@ -51,7 +51,7 @@ class MetricsFunction():
             F=F+c/(1+a*di^2)
 
         #F = F*100
-        return [F, fac, msc]
+        return F
 
 
     @staticmethod
@@ -67,15 +67,20 @@ class MetricsFunction():
             for y in range(edges.size[1]):
                 e = edges.getpixel((x,y))
                 g = groundTruth.getpixel((x,y))
-                if e == max_e and g > 0:
+                if e == max_e and g == max_g:
                     TP += 1
                 elif e == max_e and g == 0:
                     FP += 1
                 elif e == 0 and g == 0:
                     TN += 1
-                elif e == 0 and g > 0 :
+                elif e == 0 and g == max_g :
                     FN += 1
         return TP, FP, TN, FN
+
+    @staticmethod
+    def MapQuality(groundTruth, edges):
+        tp, fp, tn, fn = MetricsFunction.evaluate(groundTruth, edges)
+        return tp, fp, tn, fn, tp/(tp+fn+fp)
 
     @staticmethod
     def MeanAbsoluteError(groundTruth, edges):
