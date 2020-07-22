@@ -67,13 +67,13 @@ class MetricsFunction():
             for y in range(edges.size[1]):
                 e = edges.getpixel((x,y))
                 g = groundTruth.getpixel((x,y))
-                if e == max_e and g == max_g:
+                if e == max_e and g > 0:
                     TP += 1
                 elif e == max_e and g == 0:
                     FP += 1
                 elif e == 0 and g == 0:
                     TN += 1
-                elif e == 0 and g == max_g:
+                elif e == 0 and g > 0 :
                     FN += 1
         return TP, FP, TN, FN
 

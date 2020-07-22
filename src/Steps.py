@@ -11,7 +11,7 @@ directory = 'Steps_Images/'
 result_dir = 'Steps_Result/'
 SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]
 MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }
-ZERO_CROSS = ["LoG"]
+ZERO_CROSS = ["MarrHildret"]
 
 single_threshold = 100
 double_threshold = [0.05, 0.25]

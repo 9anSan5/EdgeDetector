@@ -10,13 +10,13 @@ FilterSIGMA = 2.3
 FilterDIM = 3*FilterSIGMA
 directory = 'Benchmark_Images/'
 result_dir = 'Benchmark_Result/'
-groundtruth_dir = directory+'/GroundTruth/'
+groundtruth_dir = directory+'GroundTruth/'
 SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]
 MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }
-ZERO_CROSS = ["LoG"]
+ZERO_CROSS = ["MarrHildret"]
 
 single_threshold = 80
-double_threshold = [0.05, 0.25]
+double_threshold = [0.1, 0.30]
 
 def load_image(filename):
     image = ImageUtil.load_image( directory+filename )

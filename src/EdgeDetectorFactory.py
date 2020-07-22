@@ -2,7 +2,7 @@ from RobertsCross import RobertsCross
 from Sobel import Sobel
 from Prewitt import Prewitt
 from Canny import Canny
-from LaplacianOfGaussian import LaplacianOfGaussian
+from MarrHildret import MarrHildret
 
 
 class EdgeDetectorFactory:
@@ -37,5 +37,5 @@ class EdgeDetectorFactory:
             return Canny(self.get_single(mask), lowThreshold, highThreshold )
     
     def get_zero(self, type, mask, threshold):
-        if type == "LoG":
-            return LaplacianOfGaussian(mask, threshold)
+        if type == "MarrHildret":
+            return MarrHildret(mask, threshold)
