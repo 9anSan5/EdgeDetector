@@ -11,14 +11,15 @@ from PIL import Image
 FilterSIGMA = 2.3                                                       #
 FilterDIM = 3*FilterSIGMA                                               #
                                                                         #
-directory = 'Steps_Images/'                                             #
-result_dir = 'Steps_Result/'                                            #
+directory = 'Benchmark_Images/'                                         #
+result_dir = 'Benchmark_Result/'                                        #
+groundtruth_dir = directory+"GroundTruth"                               #
 SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]                      #
 MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
 ZERO_CROSS = ["MarrHildret"]                                            #
                                                                         #
-single_threshold = 80                                                  #    
-doubleThreshold = [0.1, 0.30]                                          #
+single_threshold = 80                                                   #    
+double_threshold = [0.1, 0.30]                                           #
 zeroCrossing_threshold = 0.98                                           #
 #########################################################################
 

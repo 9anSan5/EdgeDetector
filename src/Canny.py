@@ -1,4 +1,4 @@
-from MultiFaseEdgeDetector import MultiFaseEdgeDetector
+from MultiPhaseEdgeDetector import MultiPhaseEdgeDetector
 class Canny (MultiFaseEdgeDetector):
     
     def __init__(self, operator, lowThresholdRatio, highThresholdRatio):

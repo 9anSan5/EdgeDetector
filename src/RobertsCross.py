@@ -1,7 +1,7 @@
 import numpy as np
-from SingleFaseEdgeDetector import SingleFaseEdgeDetector
+from SinglePhaseEdgeDetector import SinglePhaseEdgeDetector
 
-class RobertsCross(SingleFaseEdgeDetector):
+class RobertsCross(SinglePhaseEdgeDetector):
 
     def __init__(self, threshold = 80):
         self.threshold = threshold

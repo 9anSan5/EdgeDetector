@@ -4,7 +4,7 @@ from scipy import misc
 import numpy as np
 from PIL import Image
 
-class SingleFaseEdgeDetector(ABC):    
+class SinglePhaseEdgeDetector(ABC):    
         
     def getGradient(self, image):
         vertical = ndimage.convolve( image, self.mask_v )

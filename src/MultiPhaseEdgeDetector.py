@@ -4,7 +4,7 @@ from scipy import ndimage
 from scipy import misc
 import numpy as np
 
-class MultiFaseEdgeDetector(EdgeDetector, ABC):
+class MultiPhaseEdgeDetector(EdgeDetector, ABC):
         
     def getGradient(self, image):        
         vertical = ndimage.convolve( image, self.mask_v )

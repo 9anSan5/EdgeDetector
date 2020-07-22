@@ -17,7 +17,7 @@ MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
 ZERO_CROSS = ["MarrHildret"]                                            #
                                                                         #
 single_threshold = 100                                                  #    
-doubleThreshold = [0.05, 0.25]                                          #
+double_threshold = [0.05, 0.25]                                          #
 zeroCrossing_threshold = 0.98                                           #
 #########################################################################
 
@@ -45,7 +45,7 @@ def main():
     edgeDetectorsMulti = []
     for detector in MULTI_FASE.keys():
         for mask in MULTI_FASE[detector]:
-            edgeDetectorsMulti.append(edgeDetectorFactoryMulti.getDetector(mask = [detector, mask], threshold = doubleThreshold))
+            edgeDetectorsMulti.append(edgeDetectorFactoryMulti.getDetector(mask = [detector, mask], threshold = double_threshold))
     
     edgeDetectorsZero = []
     for detector in ZERO_CROSS:
