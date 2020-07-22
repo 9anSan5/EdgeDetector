@@ -17,7 +17,7 @@ class ImageUtil():
         #return gray
 
     @staticmethod
-    def load_image(infilename) :
+    def loadImage(infilename) :
         img = mpimg.imread( infilename )
         if len(img.shape) > 2:
             return ImageUtil.rgb2gray(img)
@@ -27,11 +27,11 @@ class ImageUtil():
     
     #GAUSSIAN FILTER
     @staticmethod
-    def apply_gaussian_blurring(image, size, sigma=1):    
-        return ndimage.convolve(image, ImageUtil.get_gaussian(size, sigma))
+    def applyGaussianBlurring(image, size, sigma=1):    
+        return ndimage.convolve(image, ImageUtil.getGaussian(size, sigma))
 
     @staticmethod
-    def get_gaussian(size, sigma):
+    def getGaussian(size, sigma):
         size = int(size)
         if size%2 == 0:
             size += 1
@@ -43,7 +43,7 @@ class ImageUtil():
     
     #LAPLACIAN OF GAUSSIAN FILTER
     @staticmethod
-    def get_laplacianOfGaussian(size, sigma):
+    def getLaplacianOfGaussian(size, sigma):
         size = int(size)
         if size%2 == 0:
             size += 1
@@ -53,22 +53,18 @@ class ImageUtil():
         g =  np.exp(-((x**2 + y**2) / (2.0*sigma**2))) * g
         return g
 
-    @staticmethod
-    def apply_log(image, size, sigma=1):    
-        return ndimage.convolve(image, ImageUtil.get_laplacianOfGaussian(size, sigma))
-
     #########################################################################
 
     #CONCAT IMAGES
     @staticmethod
-    def concat_h(img1, img2):
+    def concatH(img1, img2):
         dst = Image.new('L', (img1.width + img2.width, img1.height), color="white")
         dst.paste(img1, (0, 0))
         dst.paste(img2, (img1.width, 0))
         return dst
     
     @staticmethod
-    def concat_v(img1, img2):
+    def concatV(img1, img2):
         dst = Image.new('L', (img1.width, img1.height + img2.height), color="white")
         dst.paste(img1, (0, 0))
         dst.paste(img2, (0, img1.height))
@@ -77,33 +73,33 @@ class ImageUtil():
 
     #OUTPUT GENERATOR
     @staticmethod
-    def create_steps( original, edges, blurred, edges_blurred, outfilename, algorithm = None ):
+    def saveSteps( original, edges, blurred, edges_blurred, outfilename, algorithm = None ):
         for img in edges:
-            original = ImageUtil.concat_h(original,img)
+            original = ImageUtil.concatH(original,img)
         if len(edges_blurred) > 0:
             for img in edges_blurred:
-                blurred = ImageUtil.concat_h(blurred,img)
-            img = ImageUtil.concat_v(original, blurred)
+                blurred = ImageUtil.concatH(blurred,img)
+            img = ImageUtil.concatV(original, blurred)
         else:
             img = original
         if algorithm is not None:
-            img = ImageUtil.add_title(img, algorithm)    
+            img = ImageUtil.addTitle(img, algorithm)    
         img.save(outfilename)
 
     @staticmethod
-    def create_all( original, edges, groundTruth, results, outfilename) :
+    def saveBenchmark( original, edges, groundTruth, results, outfilename):
         for img in edges:
-            original = ImageUtil.concat_h(original,img)
+            original = ImageUtil.concatH(original,img)
         for img in results:
-            groundTruth = ImageUtil.concat_h(groundTruth,img)
-        img = ImageUtil.concat_v(original, groundTruth)
+            groundTruth = ImageUtil.concatH(groundTruth,img)
+        img = ImageUtil.concatV(original, groundTruth)
         img.save(outfilename)
     #########################################################################
     
 
     #WRITE TEXT
     @staticmethod
-    def write_info(image, string, time = None):
+    def writeInfo(image, string, time = None):
         if not type(image.size) == tuple:
             image = Image.fromarray(image)
         width, height = image.size
@@ -125,7 +121,7 @@ class ImageUtil():
         return dst
         
     @staticmethod
-    def add_title(image, title):
+    def addTitle(image, title):
         img = Image.new('L', (image.size[0], 60), color='white')
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("arial.ttf", 30)
@@ -137,7 +133,7 @@ class ImageUtil():
         return dst
 
     @staticmethod
-    def create_result(shape, tp, fp, tn, fn, mq, mae, pfom):
+    def writeResult(shape, tp, fp, tn, fn, mq, mae, pfom):
         img = Image.new('L', (shape[0], shape[1]), color='white')
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("arial.ttf", 24)

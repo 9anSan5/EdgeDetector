@@ -3,7 +3,7 @@ from PIL import Image
 class MetricsFunction():
 
     @staticmethod
-    def PrattFigureMerit(groundTruth, edges):
+    def prattFigureMerit(groundTruth, edges):
         edges = Image.fromarray(edges)  
         gt = groundTruth.convert('1')
         e = edges.convert('1')
@@ -13,11 +13,9 @@ class MetricsFunction():
         if not (N,M) == Ed.shape:
             print('Actual and detected edge image sizes must be same')
             return
+
         a = 0.111 # edge shift penalty constant;
         
-        print(len(np.where((Ea-Ed) == -1))) #False Alarm Count
-        print(len(np.where((Ea-Ed) == 1)))  #Miss Count
-
         Na = sum(sum(Ea))
         Nd = sum(sum(Ed))
 
@@ -78,10 +76,10 @@ class MetricsFunction():
         return TP, FP, TN, FN
 
     @staticmethod
-    def MapQuality(groundTruth, edges):
+    def mapQuality(groundTruth, edges):
         tp, fp, tn, fn = MetricsFunction.evaluate(groundTruth, edges)
         return tp, fp, tn, fn, tp/(tp+fn+fp)
 
     @staticmethod
-    def MeanAbsoluteError(groundTruth, edges):
+    def meanAbsoluteError(groundTruth, edges):
         return np.mean(np.abs(edges - groundTruth))

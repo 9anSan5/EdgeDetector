@@ -139,3 +139,4 @@ cython_debug/
 
 #Manually added
 .vscode/
+ClassDiagram.mdj

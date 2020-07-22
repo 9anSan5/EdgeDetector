@@ -6,7 +6,7 @@ from PIL import Image
 
 class SingleFaseEdgeDetector(ABC):    
         
-    def get_gradient(self, image):
+    def getGradient(self, image):
         vertical = ndimage.convolve( image, self.mask_v )
         horizontal = ndimage.convolve( image, self.mask_h )
         
@@ -14,11 +14,10 @@ class SingleFaseEdgeDetector(ABC):
         G = G / G.max() * 255
         return G 
     
-    def apply_threshold(self, img):
-        M, N = img.shape
-        img[img > self.threshold] = 255
-        img[img <= self.threshold] = 0
-        return img
+    def applyThreshold(self, image):
+        image[image > self.threshold] = 255
+        image[image <= self.threshold] = 0
+        return image
         
     def getMask(self):
         return self.mask_h, self.mask_v

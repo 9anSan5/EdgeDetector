@@ -19,13 +19,13 @@ single_threshold = 80
 double_threshold = [0.1, 0.30]
 zeroCrossing_threshold = 0.98
 
-def load_image(filename):
-    image = ImageUtil.load_image( directory+filename )
+def loadImage(filename):
+    image = ImageUtil.loadImage( directory+filename )
     filename, extension = os.path.splitext(filename)
     return image, filename, extension
 
-def load_groundTruth(filename):
-    image = ImageUtil.load_image( groundtruth_dir+filename)
+def loadGroundTruth(filename):
+    image = ImageUtil.loadImage( groundtruth_dir+filename)
     return image
 
 def main():
@@ -46,11 +46,11 @@ def main():
     for filename in os.listdir(directory):
         if os.path.isdir(directory+filename): 
             continue
-        image, filename, extension = load_image(filename)
-        groundTruth = load_groundTruth(filename+extension)
-        original = ImageUtil.write_info(image, "Original")
+        image, filename, extension = loadImage(filename)
+        groundTruth = loadGroundTruth(filename+extension)
+        original = ImageUtil.writeInfo(image, "Original")
         blurring_time = time.time()
-        image = ImageUtil.apply_gaussian_blurring(image, FilterDIM, FilterSIGMA)
+        image = ImageUtil.applyGaussianBlurring(image, FilterDIM, FilterSIGMA)
         blurring_time = time.time() - blurring_time
         images = []
         results = []
@@ -61,14 +61,14 @@ def main():
             edges = detector.getEdges(image)
             t = time.time() - t
 
-            tp, fp, tn, fn, mq = MetricsFunction.MapQuality(groundTruth, edges)
-            pfom = MetricsFunction.PrattFigureMerit(groundTruth, edges)
-            mae = MetricsFunction.MeanAbsoluteError(groundTruth, edges)
-            images.append(ImageUtil.write_info(edges, detector.getName()+" (TH: {})".format(detector.getThreshold()), blurring_time + t))
+            tp, fp, tn, fn, mq = MetricsFunction.mapQuality(groundTruth, edges)
+            pfom = MetricsFunction.prattFigureMerit(groundTruth, edges)
+            mae = MetricsFunction.meanAbsoluteError(groundTruth, edges)
+            images.append(ImageUtil.writeInfo(edges, detector.getName()+" (TH: {})".format(detector.getThreshold()), blurring_time + t))
             
-            results.append(ImageUtil.create_result(groundTruth.size, tp, fp, tn, fn, mq, mae, pfom))
+            results.append(ImageUtil.WriteResult(groundTruth.size, tp, fp, tn, fn, mq, mae, pfom))
             
         #write output image with all information
-        ImageUtil.create_all(original, images, groundTruth, results, result_dir+filename+extension)   
+        ImageUtil.saveBenchmark(original, images, groundTruth, results, result_dir+filename+extension)   
 if __name__ == '__main__':
     main()

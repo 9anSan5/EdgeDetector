@@ -10,22 +10,22 @@ class ZeroCrossingEdgeDetector(EdgeDetector, ABC):
         G = G / G.max() * 255  
         return G
 
-    def zeroCrossing(self, log):
-        self.threshold = np.mean(np.abs(log)) * self.thresholdRatio
-        zero_crossing = np.zeros_like(log)
-        for i in range(1,log.shape[0]-1):
-            for j in range(1,log.shape[1]-1):
-                patch = log[i-1:i+2, j-1:j+2]
+    def zeroCrossing(self, LoG):
+        self.threshold = np.mean(np.abs(LoG)) * self.thresholdRatio
+        zero_crossing = np.zeros_like(LoG)
+        for i in range(1,LoG.shape[0]-1):
+            for j in range(1,LoG.shape[1]-1):
+                patch = LoG[i-1:i+2, j-1:j+2]
                 maxP = patch.max()
                 minP = patch.min()
-                if log[i][j] == 0:
-                    if (log[i][j-1] < 0 and log[i][j+1] > 0) or (log[i][j-1] < 0 and log[i][j+1] < 0) or (log[i-1][j] < 0 and log[i+1][j] > 0) or (log[i-1][j] > 0 and log[i+1][j] < 0):
+                if LoG[i][j] == 0:
+                    if (LoG[i][j-1] < 0 and LoG[i][j+1] > 0) or (LoG[i][j-1] < 0 and LoG[i][j+1] < 0) or (LoG[i-1][j] < 0 and LoG[i+1][j] > 0) or (LoG[i-1][j] > 0 and LoG[i+1][j] < 0):
                         if ((maxP - minP) > self.threshold):
                             zero_crossing[i][j] = 255
                         else:
                             zero_crossing[i][j] = 0
-                if log[i][j] < 0:
-                    if (log[i][j-1] > 0) or (log[i][j+1] > 0) or (log[i-1][j] > 0) or (log[i+1][j] > 0):
+                if LoG[i][j] < 0:
+                    if (LoG[i][j-1] > 0) or (LoG[i][j+1] > 0) or (LoG[i-1][j] > 0) or (LoG[i+1][j] > 0):
                         if ((maxP - minP) > self.threshold):
                             zero_crossing[i][j] = 255
                         else:
@@ -33,29 +33,9 @@ class ZeroCrossingEdgeDetector(EdgeDetector, ABC):
 
         return zero_crossing
 
-        """
-    def zeroCrossing(self, LoG):
-        self.threshold = np.mean(np.abs(LoG)) * self.thresholdRatio
-        output = np.zeros(LoG.shape)
-        w = output.shape[1]
-        h = output.shape[0]
+    def getMask(self):
+        return self.getMask
 
-        for y in range(1, h - 1):
-            for x in range(1, w - 1):
-                patch = LoG[y-1:y+2, x-1:x+2]
-                p = LoG[y, x]
-                maxP = patch.max()
-                minP = patch.min()
-                if (p > 0):
-                    zeroCross = True if minP < 0 else False
-                else:
-                    zeroCross = True if maxP > 0 else False
-                if ((maxP - minP) > self.threshold) and zeroCross:
-                    output[y, x] = 1
-        output = output/output.max()*255
-        output = np.uint8(output)
-        return output
-"""
     def getName(self):
         return self.name
 
