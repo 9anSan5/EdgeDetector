@@ -6,19 +6,28 @@ from ImageUtil import ImageUtil
 import numpy as np
 from PIL import Image
 
-FilterSIGMA = 2.3
-FilterDIM = 3*FilterSIGMA
-directory = 'Benchmark_Images/'
-result_dir = 'Benchmark_Result/'
-groundtruth_dir = directory+'GroundTruth/'
-SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]
-MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }
-ZERO_CROSS = ["MarrHildret"]
+############################## CONFIGURE ME #############################
+#########################################################################
+FilterSIGMA = 2.3                                                       #
+FilterDIM = 3*FilterSIGMA                                               #
+                                                                        #
+directory = 'Steps_Images/'                                             #
+result_dir = 'Steps_Result/'                                            #
+SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]                      #
+MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
+ZERO_CROSS = ["MarrHildret"]                                            #
+                                                                        #
+single_threshold = 80                                                  #    
+doubleThreshold = [0.1, 0.30]                                          #
+zeroCrossing_threshold = 0.98                                           #
+#########################################################################
 
-single_threshold = 80
-double_threshold = [0.1, 0.30]
-zeroCrossing_threshold = 0.98
 
+
+
+
+
+############## DO NOT EDIT FROM THIS POINT ##############
 def loadImage(filename):
     image = ImageUtil.loadImage( directory+filename )
     filename, extension = os.path.splitext(filename)
@@ -36,12 +45,12 @@ def main():
     
     edgeDetectors = []
     for detector in SINGLE_FASE:
-        edgeDetectors.append(edgeDetectorFactorySingle.get_detector(detector, threshold = single_threshold))
+        edgeDetectors.append(edgeDetectorFactorySingle.getDetector(detector, threshold = single_threshold))
     for detector in MULTI_FASE.keys():
         for mask in MULTI_FASE[detector]:
-            edgeDetectors.append(edgeDetectorFactoryMulti.get_detector(mask = [detector, mask], threshold = double_threshold))
+            edgeDetectors.append(edgeDetectorFactoryMulti.getDetector(mask = [detector, mask], threshold = double_threshold))
     for detector in ZERO_CROSS:
-        edgeDetectors.append(edgeDetectorFactoryZero.get_detector(mask = [detector, ImageUtil.get_laplacianOfGaussian(FilterDIM, FilterSIGMA)], threshold = zeroCrossing_threshold))
+        edgeDetectors.append(edgeDetectorFactoryZero.getDetector(mask = [detector, ImageUtil.getLaplacianOfGaussian(FilterDIM, FilterSIGMA)], threshold = zeroCrossing_threshold))
 
     for filename in os.listdir(directory):
         if os.path.isdir(directory+filename): 
@@ -66,7 +75,7 @@ def main():
             mae = MetricsFunction.meanAbsoluteError(groundTruth, edges)
             images.append(ImageUtil.writeInfo(edges, detector.getName()+" (TH: {})".format(detector.getThreshold()), blurring_time + t))
             
-            results.append(ImageUtil.WriteResult(groundTruth.size, tp, fp, tn, fn, mq, mae, pfom))
+            results.append(ImageUtil.writeResult(groundTruth.size, tp, fp, tn, fn, mq, mae, pfom))
             
         #write output image with all information
         ImageUtil.saveBenchmark(original, images, groundTruth, results, result_dir+filename+extension)   

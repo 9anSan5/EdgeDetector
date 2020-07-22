@@ -93,8 +93,8 @@ class MultiFaseEdgeDetector(EdgeDetector, ABC):
         return float('%.4f'%self.lowThreshold), float('%.4f'%self.highThreshold)
     
     def getEdges(self, image):
-        gradient, theta = self.get_gradient(image)
+        gradient, theta = self.getGradient(image)
         nms = self.nonMaxSuppression(gradient, theta)
-        threshold = self.double_threshold(nms)
+        threshold = self.doubleThreshold(nms)
         hysteresis = self.hysteresis(threshold)
         return hysteresis

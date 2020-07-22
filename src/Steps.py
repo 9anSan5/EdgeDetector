@@ -5,17 +5,28 @@ from ImageUtil import ImageUtil
 import numpy as np
 from PIL import Image
 
-FilterSIGMA = 1.6
-FilterDIM = 3*FilterSIGMA
-directory = 'Steps_Images/'
-result_dir = 'Steps_Result/'
-SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]
-MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }
-ZERO_CROSS = ["MarrHildret"]
+############################## CONFIGURE ME #############################
+#########################################################################
+FilterSIGMA = 1.6                                                       #
+FilterDIM = 3*FilterSIGMA                                               #
+                                                                        #
+directory = 'Steps_Images/'                                             #
+result_dir = 'Steps_Result/'                                            #
+SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]                      #
+MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
+ZERO_CROSS = ["MarrHildret"]                                            #
+                                                                        #
+single_threshold = 100                                                  #    
+doubleThreshold = [0.05, 0.25]                                          #
+zeroCrossing_threshold = 0.98                                           #
+#########################################################################
 
-single_threshold = 100
-doubleThreshold = [0.05, 0.25]
 
+
+
+
+
+############## DO NOT EDIT FROM THIS POINT ##############
 def load(filename):
     image = ImageUtil.loadImage( directory+filename)
     filename, extension = os.path.splitext(filename)
@@ -38,7 +49,7 @@ def main():
     
     edgeDetectorsZero = []
     for detector in ZERO_CROSS:
-        edgeDetectorsZero.append(edgeDetectorFactoryZero.getDetector(mask = [detector, ImageUtil.getLaplacianOfGaussian(FilterDIM, FilterSIGMA)], threshold =2))
+        edgeDetectorsZero.append(edgeDetectorFactoryZero.getDetector(mask = [detector, ImageUtil.getLaplacianOfGaussian(FilterDIM, FilterSIGMA)], threshold = zeroCrossing_threshold))
     
     for filename in os.listdir(directory):
         if os.path.isdir(directory+filename): 

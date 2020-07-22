@@ -29,6 +29,6 @@ class SingleFaseEdgeDetector(ABC):
         return self.threshold
     
     def getEdges(self, image):
-        gradient = self.get_gradient(image)
-        threshold = self.apply_threshold(gradient)
+        gradient = self.getGradient(image)
+        threshold = self.applyThreshold(gradient)
         return threshold
