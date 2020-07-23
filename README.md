@@ -97,8 +97,8 @@ MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
 ZERO_CROSS = ["MarrHildret"]                                            #
                                                                         #
 single_threshold = 100                                                  #    
-double_threshold = [0.05, 0.25]                                          #
-zeroCrossing_threshold = 0.98                                           #
+double_threshold = [0.05, 0.25]                                         #
+zeroCrossing_threshold = 2                                              #
 #########################################################################   
 ```
 The framework came preconfigured to run RobertsCross, Sobel and Prewitt as single-phase detector, to run Canny with all operators as multi-phase detector and to run MarrHildret as zero-crossing detector.
@@ -141,7 +141,7 @@ ZERO_CROSS = ["MarrHildret"]                                            #
                                                                         #
 single_threshold = 80                                                   #    
 double_threshold = [0.10, 0.30]                                         #
-zeroCrossing_threshold = 0.98                                           #
+zeroCrossing_threshold = 3                                              #
 #########################################################################
 ```
 The framework came preconfigured to run RobertsCross, Sobel and Prewitt as single-phase detector, to run Canny with all operators as multi-phase detector and to run MarrHildret as zero-crossing detector.
