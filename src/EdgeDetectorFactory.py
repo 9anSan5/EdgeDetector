@@ -2,7 +2,7 @@ from RobertsCross import RobertsCross
 from Sobel import Sobel
 from Prewitt import Prewitt
 from Canny import Canny
-from MarrHildret import MarrHildret
+from MarrHildreth import MarrHildreth
 
 
 class EdgeDetectorFactory:
@@ -37,5 +37,5 @@ class EdgeDetectorFactory:
             return Canny(self.getSingle(mask), lowThreshold, highThreshold )
     
     def getZero(self, type, mask, threshold):
-        if type == "MarrHildret":
-            return MarrHildret(mask, threshold)
+        if type == "MarrHildreth":
+            return MarrHildreth(mask, threshold)

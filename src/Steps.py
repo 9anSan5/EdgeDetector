@@ -4,6 +4,7 @@ import time
 from ImageUtil import ImageUtil
 import numpy as np
 from PIL import Image
+from Susan import Susan
 
 ############################## CONFIGURE ME #############################
 #########################################################################
@@ -14,11 +15,11 @@ directory = 'Steps_Images/'                                             #
 result_dir = 'Steps_Result/'                                            #
 SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]                      #
 MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
-ZERO_CROSS = ["MarrHildret"]                                            #
+ZERO_CROSS = ["MarrHildreth"]                                            #
                                                                         #
 single_threshold = 100                                                  #    
 double_threshold = [0.05, 0.25]                                          #
-zeroCrossing_threshold = 0.98                                           #
+zeroCrossing_threshold = 2                                           #
 #########################################################################
 
 
@@ -29,11 +30,13 @@ zeroCrossing_threshold = 0.98                                           #
 ############## DO NOT EDIT FROM THIS POINT ##############
 def load(filename):
     image = ImageUtil.loadImage( directory+filename)
+    #Susan().getEdges(image)
     filename, extension = os.path.splitext(filename)
     return image, filename, extension
 
 def main():
     
+
     edgeDetectorFactorySingle = EdgeDetectorFactory("SINGLE_FASE")
     edgeDetectorFactoryMulti = EdgeDetectorFactory("MULTI_FASE")
     edgeDetectorFactoryZero = EdgeDetectorFactory("ZERO_CROSS")

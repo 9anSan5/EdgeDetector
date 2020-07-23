@@ -13,14 +13,14 @@ FilterDIM = 3*FilterSIGMA                                               #
                                                                         #
 directory = 'Benchmark_Images/'                                         #
 result_dir = 'Benchmark_Result/'                                        #
-groundtruth_dir = directory+"GroundTruth/"                               #
+groundtruth_dir = directory+"GroundTruth/"                              #
 SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]                      #
 MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
 ZERO_CROSS = ["MarrHildret"]                                            #
                                                                         #
 single_threshold = 80                                                   #    
-double_threshold = [0.1, 0.30]                                           #
-zeroCrossing_threshold = 0.98                                           #
+double_threshold = [0.10, 0.30]                                         #
+zeroCrossing_threshold = 3                                         #
 #########################################################################
 
 
@@ -60,16 +60,20 @@ def main():
         groundTruth = loadGroundTruth(filename+extension)
         original = ImageUtil.writeInfo(image, "Original")
         blurring_time = time.time()
-        image = ImageUtil.applyGaussianBlurring(image, FilterDIM, FilterSIGMA)
+        image_blurred = ImageUtil.applyGaussianBlurring(image, FilterDIM, FilterSIGMA)
         blurring_time = time.time() - blurring_time
         images = []
         results = []
         groundTruth = Image.fromarray(groundTruth.astype(np.int32))
         for detector in edgeDetectors:
-            
-            t = time.time()
-            edges = detector.getEdges(image)
-            t = time.time() - t
+            if detector.getName() == "MarrHildret (LoG)":
+                t = time.time()
+                edges = detector.getEdges(image)
+                t = time.time() - t
+            else:
+                t = time.time()
+                edges = detector.getEdges(image_blurred)
+                t = time.time() - t
 
             tp, fp, tn, fn, mq = MetricsFunction.mapQuality(groundTruth, edges)
             pfom = MetricsFunction.prattFigureMerit(groundTruth, edges)
