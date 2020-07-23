@@ -10,9 +10,6 @@ class MetricsFunction():
         Ea = np.array(gt, dtype=np.double)
         Ed = np.array(e, dtype=np.double)
         (N,M) = Ea.shape
-        if not (N,M) == Ed.shape:
-            print('Actual and detected edge image sizes must be same')
-            return
 
         a = 0.111 # edge shift penalty constant;
         
@@ -54,24 +51,21 @@ class MetricsFunction():
 
     @staticmethod
     def evaluate(groundTruth, edges):
-        max_e = 255
-        max_g = 255
-        edges = Image.fromarray(edges.astype(np.uint8))
         TP = 0
         FP = 0
         TN = 0
         FN = 0
-        for x in range(edges.size[0]):
-            for y in range(edges.size[1]):
-                e = edges.getpixel((x,y))
-                g = groundTruth.getpixel((x,y))
-                if e == max_e and g == max_g:
+        for x in range(edges.shape[0]):
+            for y in range(edges.shape[1]):
+                e = edges[x,y]
+                g = groundTruth.getpixel((y,x))
+                if e != 0 and g == 255:
                     TP += 1
-                elif e == max_e and g == 0:
+                elif e == 255 and g == 0:
                     FP += 1
                 elif e == 0 and g == 0:
                     TN += 1
-                elif e == 0 and g == max_g :
+                elif e == 0 and g == 255:
                     FN += 1
         return TP, FP, TN, FN
 

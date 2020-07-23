@@ -16,11 +16,11 @@ result_dir = 'Benchmark_Result/'                                        #
 groundtruth_dir = directory+"GroundTruth/"                              #
 SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]                      #
 MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
-ZERO_CROSS = ["MarrHildret"]                                            #
+ZERO_CROSS = ["MarrHildreth"]                                           #
                                                                         #
 single_threshold = 80                                                   #    
 double_threshold = [0.10, 0.30]                                         #
-zeroCrossing_threshold = 3                                         #
+zeroCrossing_threshold = 2.5                                            #
 #########################################################################
 
 
@@ -36,6 +36,11 @@ def loadImage(filename):
 
 def loadGroundTruth(filename):
     image = ImageUtil.loadImage( groundtruth_dir+filename)
+    """
+    img = image.copy()
+    img[img > 100] = 255
+    img[img < 100] = 0
+    """
     return image
 
 def main():
@@ -64,7 +69,7 @@ def main():
         blurring_time = time.time() - blurring_time
         images = []
         results = []
-        groundTruth = Image.fromarray(groundTruth.astype(np.int32))
+        groundTruth = Image.fromarray(groundTruth)
         for detector in edgeDetectors:
             if detector.getName() == "MarrHildret (LoG)":
                 t = time.time()
