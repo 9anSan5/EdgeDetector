@@ -97,8 +97,8 @@ MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
 ZERO_CROSS = ["MarrHildret"]                                            #
                                                                         #
 single_threshold = 100                                                  #    
-double_threshold = [0.05, 0.25]                                          #
-zeroCrossing_threshold = 0.98                                           #
+double_threshold = [0.05, 0.25]                                         #
+zeroCrossing_threshold = 2                                              #
 #########################################################################   
 ```
 The framework came preconfigured to run RobertsCross, Sobel and Prewitt as single-phase detector, to run Canny with all operators as multi-phase detector and to run MarrHildret as zero-crossing detector.
@@ -132,15 +132,16 @@ To configure the execution of the launcher, you have to open Steps.py file with 
 FilterSIGMA = 2.3                                                       #
 FilterDIM = 3*FilterSIGMA                                               #
                                                                         #
-directory = 'Steps_Images/'                                             #
-result_dir = 'Steps_Result/'                                            #
+directory = 'Benchmark_Images/'                                         #
+result_dir = 'Benchmark_Result/'                                        #
+groundtruth_dir = directory+"GroundTruth/"                              #
 SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]                      #
 MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
 ZERO_CROSS = ["MarrHildret"]                                            #
                                                                         #
 single_threshold = 80                                                   #    
-double_threshold = [0.1, 0.30]                                          #
-zeroCrossing_threshold = 0.98                                           #
+double_threshold = [0.10, 0.30]                                         #
+zeroCrossing_threshold = 3                                              #
 #########################################################################
 ```
 The framework came preconfigured to run RobertsCross, Sobel and Prewitt as single-phase detector, to run Canny with all operators as multi-phase detector and to run MarrHildret as zero-crossing detector.
