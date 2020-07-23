@@ -5,10 +5,8 @@ class MetricsFunction():
     @staticmethod
     def prattFigureMerit(groundTruth, edges):
         edges = Image.fromarray(edges)  
-        gt = groundTruth.convert('1')
-        e = edges.convert('1')
-        Ea = np.array(gt, dtype=np.double)
-        Ed = np.array(e, dtype=np.double)
+        Ea = np.array(groundTruth, dtype=np.double)
+        Ed = np.array(edges, dtype=np.double)
         (N,M) = Ea.shape
 
         a = 0.111 # edge shift penalty constant;
@@ -45,7 +43,6 @@ class MetricsFunction():
             di=max([n1, n2, m1, m2])
             F=F+c/(1+a*di^2)
 
-        #F = F*100
         return F
 
 

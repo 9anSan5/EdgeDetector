@@ -20,7 +20,7 @@ ZERO_CROSS = ["MarrHildreth"]                                           #
                                                                         #
 single_threshold = 80                                                   #    
 double_threshold = [0.10, 0.30]                                         #
-zeroCrossing_threshold = 2.5                                            #
+zeroCrossing_threshold = 2                                              #
 #########################################################################
 
 
@@ -36,11 +36,6 @@ def loadImage(filename):
 
 def loadGroundTruth(filename):
     image = ImageUtil.loadImage( groundtruth_dir+filename)
-    """
-    img = image.copy()
-    img[img > 100] = 255
-    img[img < 100] = 0
-    """
     return image
 
 def main():
@@ -69,7 +64,7 @@ def main():
         blurring_time = time.time() - blurring_time
         images = []
         results = []
-        groundTruth = Image.fromarray(groundTruth)
+        groundTruth = Image.fromarray(groundTruth).convert('1')
         for detector in edgeDetectors:
             if detector.getName() == "MarrHildret (LoG)":
                 t = time.time()
