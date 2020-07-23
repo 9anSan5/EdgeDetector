@@ -15,11 +15,11 @@ directory = 'Steps_Images/'                                             #
 result_dir = 'Steps_Result/'                                            #
 SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]                      #
 MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
-ZERO_CROSS = ["MarrHildreth"]                                            #
+ZERO_CROSS = ["MarrHildreth"]                                           #
                                                                         #
 single_threshold = 100                                                  #    
-double_threshold = [0.05, 0.25]                                          #
-zeroCrossing_threshold = 2                                           #
+double_threshold = [0.05, 0.25]                                         #
+zeroCrossing_threshold = 2                                              #
 #########################################################################
 
 
@@ -30,7 +30,6 @@ zeroCrossing_threshold = 2                                           #
 ############## DO NOT EDIT FROM THIS POINT ##############
 def load(filename):
     image = ImageUtil.loadImage( directory+filename)
-    #Susan().getEdges(image)
     filename, extension = os.path.splitext(filename)
     return image, filename, extension
 
@@ -118,6 +117,7 @@ def main():
             gradient_time = time.time()
             gradient, theta = detector.getGradient(image)
             gradient_time = time.time() - gradient_time
+            images.append(ImageUtil.writeInfo(gradient, "Gradient", gradient_time))
             #NonMaximumSuppression
             nms_time = time.time()
             nms = detector.nonMaxSuppression(gradient, theta)
