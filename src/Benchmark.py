@@ -13,7 +13,7 @@ FilterDIM = 3*FilterSIGMA                                               #
                                                                         #
 directory = 'Benchmark_Images/'                                         #
 result_dir = 'Benchmark_Result/'                                        #
-groundtruth_dir = directory+"GroundTruth"                               #
+groundtruth_dir = directory+"GroundTruth/"                               #
 SINGLE_FASE = ["RobertsCross", "Sobel", "Prewitt"]                      #
 MULTI_FASE = { "Canny": ["RobertsCross", "Sobel", "Prewitt"] }          #
 ZERO_CROSS = ["MarrHildret"]                                            #
