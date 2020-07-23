@@ -7,8 +7,6 @@ class MetricsFunction():
         edges = Image.fromarray(edges)  
         Ea = np.array(groundTruth, dtype=np.double)
         Ed = np.array(edges, dtype=np.double)
-        (N,M) = Ea.shape
-
         a = 0.111 # edge shift penalty constant;
         
         Na = sum(sum(Ea))
