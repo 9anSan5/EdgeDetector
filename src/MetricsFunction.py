@@ -71,4 +71,5 @@ class MetricsFunction():
 
     @staticmethod
     def meanAbsoluteError(groundTruth, edges):
+        groundTruth = groundTruth.convert('L')
         return np.mean(np.abs(edges - groundTruth))

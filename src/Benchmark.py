@@ -74,7 +74,6 @@ def main():
                 t = time.time()
                 edges = detector.getEdges(image_blurred)
                 t = time.time() - t
-
             tp, fp, tn, fn, mq = MetricsFunction.mapQuality(groundTruth, edges)
             pfom = MetricsFunction.prattFigureMerit(groundTruth, edges)
             mae = MetricsFunction.meanAbsoluteError(groundTruth, edges)

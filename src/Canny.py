@@ -7,5 +7,5 @@ class Canny (MultiPhaseEdgeDetector):
         self.name = "Canny ("+operator.getName()+" Filter)"
         self.lowThresholdRatio = lowThresholdRatio
         self.highThresholdRatio = highThresholdRatio
-        self.weak_pixel = 50
+        self.weak_pixel = 25
         self.strong_pixel = 255
